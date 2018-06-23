@@ -22,6 +22,7 @@ class DatePicker extends PureComponent {
 	static propTypes = {
 		calendarViewDate: PropTypes.object,
 		showOutsideDays: PropTypes.bool,
+		numberOfMonths: PropTypes.number,
 		events: PropTypes.array,
 		selectedDays: PropTypes.array,
 		disabledDays: PropTypes.array,
@@ -194,11 +195,25 @@ class DatePicker extends PureComponent {
 			);
 		}
 
+		if ( this.props.selectedDays ) {
+			modifiers[ 'range-start' ] = this.props.selectedDays.from;
+			modifiers[ 'range-end' ] = this.props.selectedDays.to;
+			modifiers.range = {
+				from: this.props.selectedDays.from,
+				to: this.props.selectedDays.to,
+			};
+		}
+
+		const rootClassNames = classNames( {
+			'date-picker': true,
+			'date-picker--has-range': this.props.selectedDays,
+		} );
+
 		return (
 			<DayPicker
 				modifiers={ modifiers }
-				className="date-picker"
-				selectedDays={ this.props.selectedDays }
+				ref="daypicker"
+				className={ rootClassNames }
 				disabledDays={ this.props.disabledDays }
 				fromMonth={ this.props.fromMonth }
 				month={ this.props.calendarViewDate }
@@ -211,6 +226,8 @@ class DatePicker extends PureComponent {
 				onMonthChange={ this.props.onMonthChange }
 				showOutsideDays={ this.props.showOutsideDays }
 				navbarElement={ <DatePickerNavBar /> }
+				selectedDays={ this.props.selectedDays }
+				numberOfMonths={ this.props.numberOfMonths }
 			/>
 		);
 	}
