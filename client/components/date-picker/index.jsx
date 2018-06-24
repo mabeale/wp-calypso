@@ -32,13 +32,14 @@ class DatePicker extends PureComponent {
 
 		selectedDay: PropTypes.object,
 		timeReference: PropTypes.object,
-		fromMonth: PropTypes.object,
 
 		onMonthChange: PropTypes.func,
 		onSelectDay: PropTypes.func,
 		onDayMouseEnter: PropTypes.func,
 		onDayMouseLeave: PropTypes.func,
-		onDayTouchStart: PropTypes.func,
+		toMonth: PropTypes.object,
+		fromMonth: PropTypes.object,
+        onDayTouchStart: PropTypes.func,
 		onDayTouchEnd: PropTypes.func,
 		onDayTouchMove: PropTypes.func,
 	};
@@ -195,7 +196,7 @@ class DatePicker extends PureComponent {
 			);
 		}
 
-		if ( this.props.selectedDays ) {
+		if ( this.props.selectedDays.from && this.props.selectedDays.to ) {
 			modifiers[ 'range-start' ] = this.props.selectedDays.from;
 			modifiers[ 'range-end' ] = this.props.selectedDays.to;
 			modifiers.range = {
@@ -206,7 +207,7 @@ class DatePicker extends PureComponent {
 
 		const rootClassNames = classNames( {
 			'date-picker': true,
-			'date-picker--has-range': this.props.selectedDays,
+			'date-picker--has-range': this.props.selectedDays.from && this.props.selectedDays.to,
 		} );
 
 		return (
@@ -215,8 +216,9 @@ class DatePicker extends PureComponent {
 				ref="daypicker"
 				className={ rootClassNames }
 				disabledDays={ this.props.disabledDays }
-				fromMonth={ this.props.fromMonth }
 				month={ this.props.calendarViewDate }
+				fromMonth={ this.props.fromMonth }
+				toMonth={ this.props.toMonth }
 				onDayClick={ this.setCalendarDay }
 				onDayTouchStart={ this.setCalendarDay }
 				onDayTouchEnd={ this.setCalendarDay }
