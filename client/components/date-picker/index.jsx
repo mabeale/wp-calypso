@@ -186,6 +186,9 @@ class DatePicker extends PureComponent {
 			sunday: { daysOfWeek: [ 0 ] },
 		};
 
+		const hasDateRange =
+			this.props.selectedDays && this.props.selectedDays.from && this.props.selectedDays.to;
+
 		if ( this.props.selectedDay ) {
 			modifiers[ 'is-selected' ] = this.getDateInstance( this.props.selectedDay );
 		}
@@ -196,7 +199,7 @@ class DatePicker extends PureComponent {
 			);
 		}
 
-		if ( this.props.selectedDays.from && this.props.selectedDays.to ) {
+		if ( hasDateRange ) {
 			modifiers[ 'range-start' ] = this.props.selectedDays.from;
 			modifiers[ 'range-end' ] = this.props.selectedDays.to;
 			modifiers.range = {
@@ -207,7 +210,7 @@ class DatePicker extends PureComponent {
 
 		const rootClassNames = classNames( {
 			'date-picker': true,
-			'date-picker--has-range': this.props.selectedDays.from && this.props.selectedDays.to,
+			'date-picker--has-range': hasDateRange,
 		} );
 
 		return (
