@@ -244,8 +244,26 @@ class WpcomChecklistComponent extends PureComponent {
 	}
 
 	renderTask( task ) {
-		const { siteSlug, viewMode, taskStatuses, designType, isSiteUnlaunched } = this.props;
-		const TaskComponent = 'banner' === viewMode ? ChecklistBannerTask : Task;
+		const {
+			siteSlug,
+			viewMode,
+			taskStatuses,
+			designType,
+			isSiteUnlaunched,
+			closePopover,
+		} = this.props;
+
+		let TaskComponent = Task;
+
+		switch ( viewMode ) {
+			case 'banner':
+				TaskComponent = ChecklistBannerTask;
+				break;
+			case 'prompt':
+				TaskComponent = ChecklistPromptTask;
+				break;
+		}
+
 		const taskList = getTaskList( taskStatuses, designType, isSiteUnlaunched );
 		const firstIncomplete = taskList.getFirstIncompleteTask();
 
@@ -256,6 +274,7 @@ class WpcomChecklistComponent extends PureComponent {
 			siteSlug,
 			firstIncomplete,
 			buttonPrimary: firstIncomplete && firstIncomplete.id === task.id,
+			closePopover: closePopover,
 		};
 
 		if ( this.shouldRenderTask( task.id ) ) {
