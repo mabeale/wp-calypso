@@ -1,3 +1,72 @@
+// The mockups themselves, both mobile
+// and desktop variants.
+.site-mockup__viewport {
+	margin: 0 auto;
+	background: $white;
+	position: relative;
+	box-shadow: 0 0 0 1px $gray;
+	transition: all 0.2s cubic-bezier( 0.175, 0.885, 0.32, 1.275 );
+
+	/* I don't think this is in use...
+	// Hide the mockups until we have vertical
+	// data to show.
+	.is-empty & {
+		opacity: 0;
+		transform: translateY( 200px );
+	}
+	*/
+
+	&.is-desktop {
+		border-radius: 4px;
+		height: 100%;
+
+		.site-mockup__content {
+			padding: 24px;
+		}
+	}
+
+	&.is-mobile {
+		border-radius: 12px;
+		width: 280px;
+		transition-delay: 0.2s;
+
+		.site-mockup__body {
+			margin: 0 5px 15px 5px;
+			border: 1px solid $gray-lighten-20;
+			border-radius: 6px;
+			overflow: auto;
+		}
+
+		.site-mockup__content {
+			padding: 16px;
+		}
+	}
+}
+
+/* Not sure this stuff is needed... -shaun
+
+// Mockup document body; Where all the
+// stuff goes.
+.site-mockup__body {
+	height: 100%;
+	overflow: hidden;
+
+	// Mobile body is scrollable and needs to
+	// make room for the chrome.
+	.site-mockup__viewport.is-mobile & {
+
+		max-height: 400px;
+
+		@include breakpoint( '<660px' ) {
+			max-height: 600px;
+		}
+	}
+}
+*/
+
+
+
+
 // Browser chrome to make mockups look
 // a little more like a website/phone.
 .site-mockup__chrome-desktop {
@@ -51,55 +120,32 @@
 	}
 }
 
-
-// Mockup document body; Where all the
-// stuff goes.
-.site-mockup__body {
-	height: 100%;
-	overflow: hidden;
-
-	// Mobile body is scrollable and needs to
-	// make room for the chrome.
-	.site-mockup__viewport.is-mobile & {
-		margin: 0 6px 6px;
-		border: 1px solid $gray-lighten-20;
-		border-radius: 3px;
-		max-height: 400px;
-
-		@include breakpoint( '<660px' ) {
-			max-height: 600px;
-		}
-	}
-}
-
-
-// Demo Content
-//
-.site-mockup__content {
-	.site-mockup__viewport.is-desktop & {
-		padding: 0 24px;
-	}
-	.site-mockup__viewport.is-mobile & {
-		padding: 0 16px;
-	}
-}
-
-// Mockup Title
+// Mockup Site Title
 .site-mockup__title {
-	margin-top: 20px;
-	font-size: 60px;
+	color: #222;
+	font-size: 50px;
 	line-height: 1.2;
+
+	.is-mobile & {
+		font-size: 30px;
+	}
 }
 
-// Mockup Tagline
+// Mockup Site Tagline
 .site-mockup__tagline {
+	color: #222;
 	font-size: 20px;
 	margin-bottom: 20px;
+	line-height: 1.4;
+
+	.is-mobile & {
+		font-size: 16px;
+	}
 }
 
 // Gutenberg Content
 .site-mockup__gutenberg-content {
-	font-size: 20px;
+	color: #222;
 
 	.wp-block-cover {
 		margin-bottom: 18px;
@@ -107,13 +153,22 @@
 		background-color: #000;
 		background-size: cover;
 		background-position: center center;
-		min-height: 430px;
-		width: 100%;
-		margin: 0 0 1.5em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
+
+		.is-desktop & {
+			margin-left: -24px;
+			margin-right: -24px;
+			min-height: 300px;
+		}
+
+		.is-mobile & {
+			margin-left: -16px;
+			margin-right: -16px;
+			min-height: 220px;
+		}
 
 		&.has-background-dim:before {
 			content: "";
@@ -123,27 +178,23 @@
 			bottom: 0;
 			right: 0;
 			background-color: #000;
-			opacity: .5;
-			z-index: 1;
-		}
-
-		&.alignfull {
-			height: 75vh;
-			margin-left: calc(50% - 50vw);
-			margin-right: calc(50% - 50vw);
-			width: auto;
-			max-width: 1000%;
+			opacity: 0.5;
+			z-index: 1; // Ugh, z-index...
 		}
 
 		p.wp-block-cover-text {
 			color: #fff;
-			font-size: 2em;
+			font-size: 40px;
 			line-height: 1.25;
-			z-index: 1;
+			z-index: 1; // Ugh, z-index...
 			margin-bottom: 0;
 			max-width: 610px;
 			padding: 14px;
 			text-align: center;
+
+			.is-mobile & {
+				font-size: 24px;
+			}
 		}
 	}
 
@@ -200,6 +251,11 @@
 		&.has-small-font-size {
 			font-size: 13px
 		}
+	
+		.is-mobile & {
+			font-size: 16px;
+			line-height: 1.3;
+		}
 	}
 	
 	.contact-form {
@@ -214,6 +270,7 @@
 			}
 		}
 		input {
+			color: #222;
 			margin-bottom: 4px;
 			border: 1px solid #ccc;
 			border-radius: 3px;
@@ -222,6 +279,7 @@
 		input[type='text'],
 		input[type='email'] {
 			width: 300px;
+			max-width: 100%;
 		}
 		
 		input[type=submit] {
@@ -243,12 +301,10 @@
 	}
 }
 
-
 // Style Variations
 .site-mockup__viewport {
 	&.is-default {
 		.site-mockup__content {
-			color: #222;
 			font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Times, "Times New Roman", serif;
 		}
 
@@ -296,14 +352,12 @@
 			background-color: #eae8dc;
 		}
 		.site-mockup__content {
-			color: #222;
 			font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
 		}
 	}
 
 	&.is-colorful {
 		.site-mockup__content {
-			color: #222;
 			font-family: 'Karla', 'Helvetica Neue', Helvetica, arial, sans-serif;
 		}
 
