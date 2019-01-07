@@ -4,12 +4,14 @@
  */
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 import Button from 'components/button';
+import { hideChecklistPrompt } from 'state/inline-help/actions';
 
 class ChecklistPromptTask extends PureComponent {
 	static propTypes = {
@@ -25,6 +27,7 @@ class ChecklistPromptTask extends PureComponent {
 
 	dismissPopup = () => {
 		//Remove query string, too
+		this.props.hideChecklistPrompt();
 		this.props.closePopover();
 	};
 
@@ -38,7 +41,7 @@ class ChecklistPromptTask extends PureComponent {
 		if ( this.props.completed ) {
 			return null;
 		}
-    
+
 		const { description, title, duration, translate, onClick } = this.props;
 		const { buttonText = translate( 'Do it!' ) } = this.props;
 		const dismissButtonText = translate( 'Dismiss' );
@@ -67,4 +70,11 @@ class ChecklistPromptTask extends PureComponent {
 	}
 }
 
-export default localize( ChecklistPromptTask );
+const mapDispatchToProps = {
+	hideChecklistPrompt,
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)( localize( ChecklistPromptTask ) );
