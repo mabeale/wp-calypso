@@ -38,7 +38,7 @@ class ChecklistPromptTask extends PureComponent {
 		if ( this.props.completed ) {
 			return null;
 		}
-
+    
 		const { description, title, duration, translate, onClick } = this.props;
 		const { buttonText = translate( 'Do it!' ) } = this.props;
 		const dismissButtonText = translate( 'Dismiss' );
