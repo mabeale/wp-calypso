@@ -445,11 +445,6 @@ export function generateSteps( {
 			dependencies: [ 'themeSlugWithRepo' ],
 			delayApiRequestUntilComplete: true,
 		},
-
-		'site-style': {
-			stepName: 'site-style',
-			providesDependencies: [ 'siteStyle', 'themeSlugWithRepo' ],
-		},
 	};
 }
 
