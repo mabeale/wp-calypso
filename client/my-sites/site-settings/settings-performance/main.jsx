@@ -27,11 +27,7 @@ import SiteSettingsNavigation from 'my-sites/site-settings/navigation';
 import SpeedUpYourSite from 'my-sites/site-settings/speed-up-site-settings';
 import wrapSettingsForm from 'my-sites/site-settings/wrap-settings-form';
 import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
-import {
-	isJetpackSite,
-	isJetpackMinimumVersion,
-	siteSupportsJetpackSettingsUi,
-} from 'state/sites/selectors';
+import { isJetpackSite } from 'state/sites/selectors';
 
 class SiteSettingsPerformance extends Component {
 	renderSectionHeader( title, showButton = true ) {
@@ -58,8 +54,6 @@ class SiteSettingsPerformance extends Component {
 			handleAutosavingToggle,
 			isRequestingSettings,
 			isSavingSettings,
-			jetpackSettingsUI,
-			jetpackVersionSupportsLazyImages,
 			onChangeField,
 			site,
 			siteId,
@@ -77,23 +71,18 @@ class SiteSettingsPerformance extends Component {
 				<SidebarNavigation />
 				<SiteSettingsNavigation site={ site } section="performance" />
 
-				{ siteIsJetpack && <QueryJetpackModules siteId={ siteId } /> }
-
-				{ jetpackSettingsUI && jetpackVersionSupportsLazyImages && (
+				{ siteIsJetpack && (
 					<Fragment>
+						<QueryJetpackModules siteId={ siteId } />
+
 						{ this.renderSectionHeader( translate( 'Performance & speed' ), false ) }
 						<SpeedUpYourSite
 							isSavingSettings={ isSavingSettings }
 							isRequestingSettings={ isRequestingSettings }
-							jetpackVersionSupportsLazyImages={ jetpackVersionSupportsLazyImages }
 							submitForm={ submitForm }
 							updateFields={ updateFields }
 						/>
-					</Fragment>
-				) }
 
-				{ jetpackSettingsUI && (
-					<Fragment>
 						{ this.renderSectionHeader( translate( 'Media' ), false ) }
 						<MediaSettingsPerformance
 							siteId={ siteId }
@@ -102,7 +91,6 @@ class SiteSettingsPerformance extends Component {
 							isSavingSettings={ isSavingSettings }
 							isRequestingSettings={ isRequestingSettings }
 							fields={ fields }
-							jetpackVersionSupportsLazyImages={ jetpackVersionSupportsLazyImages }
 						/>
 					</Fragment>
 				) }
@@ -135,14 +123,10 @@ const connectComponent = connect( state => {
 	const site = getSelectedSite( state );
 	const siteId = getSelectedSiteId( state );
 	const siteIsJetpack = isJetpackSite( state, siteId );
-	const jetpackSettingsUiSupported = siteSupportsJetpackSettingsUi( state, siteId );
-	const jetpackVersionSupportsLazyImages = isJetpackMinimumVersion( state, siteId, '5.8-alpha' );
 
 	return {
 		site,
 		siteIsJetpack,
-		jetpackVersionSupportsLazyImages,
-		jetpackSettingsUI: siteIsJetpack && jetpackSettingsUiSupported,
 	};
 } );
 
