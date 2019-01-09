@@ -22,7 +22,7 @@ import FormLabel from 'components/forms/form-label';
 import FormRadio from 'components/forms/form-radio';
 import FormSettingExplanation from 'components/forms/form-setting-explanation';
 import CompactFormToggle from 'components/forms/form-toggle/compact';
-import { getCustomizerUrl } from 'state/sites/selectors';
+import { getCustomizerUrl, isJetpackSite } from 'state/sites/selectors';
 import { getSelectedSiteId } from 'state/ui/selectors';
 import isJetpackModuleActive from 'state/selectors/is-jetpack-module-active';
 import SupportInfo from 'components/support-info';
@@ -40,7 +40,6 @@ class ThemeEnhancements extends Component {
 		handleAutosavingRadio: PropTypes.func.isRequired,
 		isSavingSettings: PropTypes.bool,
 		isRequestingSettings: PropTypes.bool,
-		jetpackSettingsUI: PropTypes.bool,
 		fields: PropTypes.object,
 	};
 
@@ -193,13 +192,13 @@ class ThemeEnhancements extends Component {
 	}
 
 	render() {
-		const { jetpackSettingsUI, translate } = this.props;
+		const { siteIsJetpack, translate } = this.props;
 		return (
 			<div>
 				<SectionHeader label={ translate( 'Theme Enhancements' ) } />
 
 				<Card className="theme-enhancements__card site-settings">
-					{ jetpackSettingsUI ? (
+					{ siteIsJetpack ? (
 						<div>
 							{ this.renderJetpackInfiniteScrollSettings() }
 							<hr />
@@ -220,6 +219,7 @@ export default connect( state => {
 	return {
 		customizeUrl: getCustomizerUrl( state, selectedSiteId ),
 		selectedSiteId,
+		siteIsJetpack: isJetpackSite( state, selectedSiteId ),
 		infiniteScrollModuleActive: !! isJetpackModuleActive(
 			state,
 			selectedSiteId,

@@ -160,34 +160,30 @@ class SiteSettingsFormWriting extends Component {
 					handleAutosavingRadio={ handleAutosavingRadio }
 					isSavingSettings={ isSavingSettings }
 					isRequestingSettings={ isRequestingSettings }
-					jetpackSettingsUI={ siteIsJetpack }
 					fields={ fields }
 				/>
 
-				{ siteIsJetpack &&
-					config.isEnabled( 'press-this' ) && (
-						<PublishingTools
-							onSubmitForm={ handleSubmitForm }
-							isSavingSettings={ isSavingSettings }
-							isRequestingSettings={ isRequestingSettings }
-							fields={ fields }
-						/>
-					) }
+				{ siteIsJetpack && config.isEnabled( 'press-this' ) && (
+					<PublishingTools
+						onSubmitForm={ handleSubmitForm }
+						isSavingSettings={ isSavingSettings }
+						isRequestingSettings={ isRequestingSettings }
+						fields={ fields }
+					/>
+				) }
 
-				{ config.isEnabled( 'press-this' ) &&
-					! this.isMobile() &&
-					! siteIsJetpack && (
-						<div>
-							{ this.renderSectionHeader(
-								translate( 'Press This', {
-									context: 'name of browser bookmarklet tool',
-								} ),
-								false
-							) }
+				{ config.isEnabled( 'press-this' ) && ! this.isMobile() && ! siteIsJetpack && (
+					<div>
+						{ this.renderSectionHeader(
+							translate( 'Press This', {
+								context: 'name of browser bookmarklet tool',
+							} ),
+							false
+						) }
 
-							<PressThis />
-						</div>
-					) }
+						<PressThis />
+					</div>
+				) }
 			</form>
 		);
 	}
